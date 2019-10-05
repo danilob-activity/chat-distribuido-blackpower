@@ -21,11 +21,12 @@ public class Servidor extends Thread {
     private InputStream in;  
     private InputStreamReader inr;  
     private BufferedReader bfr;
-/**
+
+    /**
   * Método construtor 
   * @param com do tipo Socket
   */
-  public Servidor(Socket con){
+public Servidor(Socket con){
     this.con = con;
     try {
           in  = con.getInputStream();
@@ -109,4 +110,4 @@ public void sendToAll(BufferedWriter bwSaida, String msg) throws  IOException
       e.printStackTrace();
     }                       
    }// Fim do método main                      
-  } //Fim da classe    
+  } //Fim da classe
