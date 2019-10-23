@@ -14,19 +14,20 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class Servidor extends Thread {
-    private static ArrayList<BufferedWriter>clientes;           
-    private static ServerSocket server; 
-    private String nome;
-    private Socket con;
-    private InputStream in;  
-    private InputStreamReader inr;  
-    private BufferedReader bfr;
 
-    /**
+private static ArrayList<BufferedWriter>clientes;           
+private static ServerSocket server; 
+private String nome;
+private Socket con;
+private InputStream in;  
+private InputStreamReader inr;  
+private BufferedReader bfr;
+
+/**
   * Método construtor 
   * @param com do tipo Socket
   */
-public Servidor(Socket con){
+  public Servidor(Socket con){
     this.con = con;
     try {
           in  = con.getInputStream();
@@ -36,6 +37,7 @@ public Servidor(Socket con){
            e.printStackTrace();
     }                          
  }
+
  /**
   * Método run
   */
@@ -62,6 +64,7 @@ public void run(){
       
      }                       
   }
+
   /***
  * Método usado para enviar mensagem para todos os clients
  * @param bwSaida do tipo BufferedWriter
@@ -80,6 +83,7 @@ public void sendToAll(BufferedWriter bwSaida, String msg) throws  IOException
    }
   }          
 }
+
 /***
    * Método main
    * @param args
