@@ -24,7 +24,7 @@ private InputStreamReader inr;
 private BufferedReader bfr;
 
 /**
-  * Método construtor 
+  * Construtor 
   * @param com do tipo Socket
   */
   public Servidor(Socket con){
