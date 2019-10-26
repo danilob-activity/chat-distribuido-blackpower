@@ -93,7 +93,7 @@ public void sendToAll(BufferedWriter bwSaida, String msg) throws  IOException
     try{
       //Cria os objetos necessário para instânciar o servidor
       JLabel lblMessage = new JLabel("Porta do Servidor:");
-      JTextField txtPorta = new JTextField("12345");
+      JTextField txtPorta = new JTextField("3535");
       Object[] texts = {lblMessage, txtPorta };  
       JOptionPane.showMessageDialog(null, texts);
       server = new ServerSocket(Integer.parseInt(txtPorta.getText()));
@@ -104,7 +104,7 @@ public void sendToAll(BufferedWriter bwSaida, String msg) throws  IOException
        while(true){
          System.out.println("Aguardando conexão...");
          Socket con = server.accept();
-         System.out.println("Cliente conectado...");
+         System.out.println(" conectado...");
          Thread t = new Servidor(con);
           t.start();   
       }
