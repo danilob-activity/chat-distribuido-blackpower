@@ -135,11 +135,12 @@ public void escutar() throws IOException{
   */
   public void sair() throws IOException{
                           
-    enviarMensagem("Sair");
-    bfw.close();
-    ouw.close();
-    ou.close();
-    socket.close();
+    enviarMensagem("Logout");
+      btw.write("Logout\r");
+    //bfw.close();
+    //ouw.close();
+    //ou.close();
+    //socket.close();
  }
 
  @Override
