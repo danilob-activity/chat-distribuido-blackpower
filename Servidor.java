@@ -77,8 +77,8 @@ public void sendToAll(BufferedWriter bwSaida, String msg) throws  IOException
     
   for(BufferedWriter bw : clientes){
    bwS = (BufferedWriter)bw;
-   if(!(bwSaida == bwS)){
-     bw.write(nome + " -> " + msg+"\r\n");
+   if(!(logout.equalsIgnoreCase(msg)&&(bwSaida == bwS))){
+    bw.write(nome + " -> " + msg+"\r\n");
      bw.flush(); 
    }
   }          
