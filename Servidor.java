@@ -98,6 +98,7 @@ public void sendToAllServer(BufferedWriter bwSaida, String msg) throws IOExcepti
   }
 }
 
+
 public String getCurrentTime(){
   Calendar calendar = Calendar.getInstance();
   SimpleDateFormat fomatter = new SimpleDateFormat("HH:mm:ss");
