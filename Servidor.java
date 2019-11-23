@@ -11,7 +11,6 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -35,7 +34,7 @@ private BufferedReader bfr;
     try {
           in  = con.getInputStream();
           inr = new InputStreamReader(in);
-           bfr = new BufferedReader(inr);
+          bfr = new BufferedReader(inr);
     } catch (IOException e) {
            e.printStackTrace();
     }                          
@@ -54,7 +53,7 @@ public void run(){
       BufferedWriter bfw = new BufferedWriter(ouw); 
       clientes.add(bfw);
       nome = msg = bfr.readLine();
-      System.out.println(nome);
+      //System.out.println(nome);
       getCurrentTime();
       sendToAll(null, getCurrentTime()+"... "+ msg+" entrou no chat!");
                  
@@ -91,6 +90,7 @@ public void sendToAll(BufferedWriter bwSaida, String msg) throws  IOException
    }
   }          
 }
+
 public String getCurrentTime(){
   Calendar calendar = Calendar.getInstance();
   SimpleDateFormat fomatter = new SimpleDateFormat("HH:mm:ss");
