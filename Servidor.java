@@ -29,6 +29,7 @@ private Socket con;
 private InputStream in;  
 private InputStreamReader inr;  
 private BufferedReader bfr;
+private String SAIR = "__Sair";
 
 /**
   * Construtor 
@@ -60,15 +61,18 @@ public void run(){
       nome = msg = bfr.readLine();
       //System.out.println(nome);
       getCurrentTime();
-      sendToAll(null, getCurrentTime()+"... "+ msg+" entrou no chat!");
+      String msg_send = getCurrentTime()+"... "+msg+" Entrou no chat!";
+      sendToOneServer(bfw,returnLastMensagens());
+
+      sendToAllServer(bfw, getCurrentTime()+"... "+ msg+" entrou no chat!");
                  
-      while(!"Sair".equalsIgnoreCase(msg) && msg != null)
-        {           
+      while(!SAIR.equalsIgnoreCase(msg) && msg != null){           
          msg = bfr.readLine();
          sendToAll(bfw, msg);
          System.out.println(msg);                                              
          }
-         sendToAll(null, getCurrentTime()+"... "+ nome+" saiu do chat!");
+         msg_send = getCurrentTime()+"... "+ nome +" saiu do chat!";
+         sendToAllServer(bfw, msg_send);
          clientes.remove(bfw);
                                         
      }catch (Exception e) {
@@ -76,6 +80,22 @@ public void run(){
       
      }                       
   }
+
+  public void checkLastMensagens(String msg){
+    if(last_msgs.size()>num_msg_buffer){
+        last_msgs.remove(0);
+    }     
+    last_msgs.add(msg);
+}
+
+public String returnLastMensagens(){
+  String msg="";
+  for (int i=0;i<last_msgs.size();i++){
+    msg += last_msgs.get(i);
+  }
+
+  return msg;
+}
 
   /***
  * Método usado para enviar mensagem para todos os clients
@@ -85,7 +105,7 @@ public void run(){
  */
 public void sendToAll(BufferedWriter bwSaida, String msg) throws  IOException {
   
-  //if(SAIR.equalsIgnoreCase(msg)) return;
+ if(SAIR.equalsIgnoreCase(msg)) return;
   BufferedWriter bwS;
   boolean sala = salas.get(clientes.indexOf(bwSaida));
   String comp;
@@ -94,24 +114,55 @@ public void sendToAll(BufferedWriter bwSaida, String msg) throws  IOException {
   }else{
     comp = Sala2;
   }
-  String msg_ = "("+getCurrentTime()+") "+ nome + "\n   -> " + msg+"\r\n";
+  String msg_ = "("+getCurrentTime()+") "+nome + "\n   -> " + msg+"\r\n";
   for(BufferedWriter bw : clientes){
    bwS = (BufferedWriter)bw;
-   //if(!("Sair".equalsIgnoreCase(msg)&&(bwSaida == bwS))){
-    if(salas.get(clientes.indexOf(bwS))==sala){
-      bw.write(com+" "+msg_);
+   //if(!(SAIR.equalsIgnoreCase(msg)&& (bwSaida == bwS))){
+     if(salas.get(clientes.indexOf(bwS))==sala){
+      bw.write(comp+" "+msg_);
       bw.flush(); 
-    }
-  // }
-  }          
+     }
+    
+   //}
+   
+
+   //if(!(bwSaida == bwS)){
+     
+   //}
+  }  
+  checkLastMensagens(msg_);          
 }
+
 public void sendToAllServer(BufferedWriter bwSaida, String msg) throws IOException {
 
-  for (BufferedWriter bw : clientes) {
-          bw.write(msg + "\r\n");
-          bw.flush();   
+  BufferedWriter bwS;
+
+  boolean sala = salas.get(clientes.indexOf(bwSaida));
+  String comp;
+  if(sala){
+    comp = Sala1;
+  }else{
+    comp = Sala2;
   }
+    for(BufferedWriter bw : clientes){
+      bwS = (BufferedWriter)bw;
+
+      if(salas.get(clientes.indexOf(bwS))==sala){
+        bw.write(comp+" "+msg+"\r\n");
+        bw.flush(); 
+       }
+        
+      }
+
+      checkLastMensagens(msg+"\n");
   
+}
+public void sendToOneServer(BufferedWriter bwSaida, String msg) throws  IOException 
+{
+
+    bwSaida.write(msg);
+    bwSaida.flush();
+      
 }
 
 public String getCurrentTime(){
