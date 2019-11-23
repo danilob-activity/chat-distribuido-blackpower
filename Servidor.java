@@ -92,7 +92,7 @@ public void sendToAll(BufferedWriter bwSaida, String msg) throws  IOException
   }          
 }
 public String getCurrentTime(){
-  Calendar calendar = Calender.getInstance();
+  Calendar calendar = Calendar.getInstance();
   SimpleDateFormat fomatter = new SimpleDateFormat("HH:mm:ss");
   System.out.println(fomatter.format(calendar.getTime()));
   return ""+fomatter.format(calendar.getTime());
