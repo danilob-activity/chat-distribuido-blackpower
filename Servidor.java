@@ -91,6 +91,14 @@ public void sendToAll(BufferedWriter bwSaida, String msg) throws  IOException
    }
   }          
 }
+public void sendToAllServer(BufferedWriter bwSaida, String msg) throws IOException {
+
+  for (BufferedWriter bw : clientes) {
+          bw.write(msg + "\n");
+          bw.flush();   
+  }
+}
+
 public String getCurrentTime(){
   Calendar calendar = Calendar.getInstance();
   SimpleDateFormat fomatter = new SimpleDateFormat("HH:mm:ss");
