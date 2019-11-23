@@ -108,7 +108,7 @@ public void sendToAll(BufferedWriter bwSaida, String msg) throws  IOException {
 public void sendToAllServer(BufferedWriter bwSaida, String msg) throws IOException {
 
   for (BufferedWriter bw : clientes) {
-          bw.write(msg + "\n");
+          bw.write(msg + "\r\n");
           bw.flush();   
   }
 }
