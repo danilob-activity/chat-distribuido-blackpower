@@ -8,7 +8,10 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -51,6 +54,9 @@ public void run(){
       BufferedWriter bfw = new BufferedWriter(ouw); 
       clientes.add(bfw);
       nome = msg = bfr.readLine();
+      System.out.println(nome);
+      getCurrentTime();
+      sendToAll(null, getCurrentTime()+"... "+ msg+" entrou no chat!");
                  
       while(!"Sair".equalsIgnoreCase(msg) && msg != null)
         {           
@@ -58,6 +64,8 @@ public void run(){
          sendToAll(bfw, msg);
          System.out.println(msg);                                              
          }
+         sendToAll(null, getCurrentTime()+"... "+ nome+" saiu do chat!");
+         clientes.remove(bfw);
                                         
      }catch (Exception e) {
        e.printStackTrace();
@@ -77,11 +85,17 @@ public void sendToAll(BufferedWriter bwSaida, String msg) throws  IOException
     
   for(BufferedWriter bw : clientes){
    bwS = (BufferedWriter)bw;
-   if(!(logout.equalsIgnoreCase(msg)&&(bwSaida == bwS))){
-    bw.write(nome + " -> " + msg+"\r\n");
+   if(!("Sair".equalsIgnoreCase(msg)&&(bwSaida == bwS))){
+    bw.write("("+getCurrentTime()+") "+ nome + "\n   -> " + msg+"\r\n");
      bw.flush(); 
    }
   }          
+}
+public String getCurrentTime(){
+  Calendar calendar = Calender.getInstance();
+  SimpleDateFormat fomatter = new SimpleDateFormat("HH:mm:ss");
+  System.out.println(fomatter.format(calendar.getTime()));
+  return ""+fomatter.format(calendar.getTime());
 }
 
 /***
