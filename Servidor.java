@@ -88,12 +88,18 @@ public void sendToAll(BufferedWriter bwSaida, String msg) throws  IOException {
   //if(SAIR.equalsIgnoreCase(msg)) return;
   BufferedWriter bwS;
   boolean sala = salas.get(clientes.indexOf(bwSaida));
+  String comp;
+  if(sala){
+    comp = Sala1;
+  }else{
+    comp = Sala2;
+  }
   String msg_ = "("+getCurrentTime()+") "+ nome + "\n   -> " + msg+"\r\n";
   for(BufferedWriter bw : clientes){
    bwS = (BufferedWriter)bw;
    //if(!("Sair".equalsIgnoreCase(msg)&&(bwSaida == bwS))){
     if(salas.get(clientes.indexOf(bwS))==sala){
-      bw.write(msg_);
+      bw.write(com+" "+msg_);
       bw.flush(); 
     }
   // }
@@ -109,7 +115,7 @@ public void sendToAllServer(BufferedWriter bwSaida, String msg) throws IOExcepti
 
 public String getCurrentTime(){
   Calendar calendar = Calendar.getInstance();
-  SimpleDateFormat fomatter = new SimpleDateFormat("HH:mm:ss");
+  SimpleDateFormat fomatter = new SimpleDateFormat("HH:mm");
   System.out.println(fomatter.format(calendar.getTime()));
   return ""+fomatter.format(calendar.getTime());
 }
