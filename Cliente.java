@@ -97,11 +97,10 @@ public Cliente() throws IOException{
   public void enviarMensagem(String msg) throws IOException{
                            
     if(msg.equals("Sair")){
-      bfw.write("Desconectado \r\n");
-      texto.append("Desconectado \r\n");
+      bfw.write("Sair\r");
     }else{
       bfw.write(msg+"\r\n");
-      texto.append( txtNome.getText() + " diz -> " +         txtMsg.getText()+"\r\n");
+    //  texto.append( txtNome.getText() + " diz -> " +         txtMsg.getText()+"\r\n");
     }
      bfw.flush();
      txtMsg.setText("");        
@@ -127,6 +126,12 @@ public void escutar() throws IOException{
          else
           texto.append(msg+"\r\n");         
          }
+
+         bfw.close();
+         ouw.close();
+         ou.close();
+         socket.close();
+
  }
 
  /***
@@ -135,8 +140,8 @@ public void escutar() throws IOException{
   */
   public void sair() throws IOException{
                           
-    enviarMensagem("Logout");
-      btw.write("Logout\r");
+    enviarMensagem("Sair");
+   //   btw.write("Logout\r");
     //bfw.close();
     //ouw.close();
     //ou.close();
