@@ -180,27 +180,26 @@ public String getCurrentTime(){
     
     try{
       //Cria os objetos necessário para instânciar o servidor
-      JLabel lblMessage = new JLabel("Porta do Servidor:");
-      JTextField txtPorta = new JTextField("3535");
+      JLabel lblMessage = new JLabel("localhost");
+      JTextField txtPorta = new JTextField("12345");
       Object[] texts = {lblMessage, txtPorta };  
       JOptionPane.showMessageDialog(null, texts);
       server = new ServerSocket(Integer.parseInt(txtPorta.getText()));
       clientes = new ArrayList<BufferedWriter>();
       salas = new ArrayList<Boolean>();
       last_msgs = new ArrayList<String>();
-      
+
       JOptionPane.showMessageDialog(null,"Servidor ativo na porta: "+         
       txtPorta.getText());
-      boolean escolhaSala = true;
+      boolean salaChoose = true;
        while(true){
          System.out.println("Aguardando conexão...");
          Socket con = server.accept();
-         System.out.println("Conectado...");
+         System.out.println("Cliente conectado...");
          Thread t = new Servidor(con);
-          t.start();   
-          salas.add(escolhaSala);
-          escolhaSala = !escolhaSala;
-
+         t.start();   
+         salas.add(salaChoose);
+         salaChoose = !salaChoose;
       }
                                 
     }catch (Exception e) {
