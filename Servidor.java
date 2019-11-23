@@ -17,7 +17,12 @@ import javax.swing.JTextField;
 
 public class Servidor extends Thread {
 
-private static ArrayList<BufferedWriter>clientes;           
+private static ArrayList<BufferedWriter>clientes;   
+private static ArrayList<Boolean> salas;
+private String Sala1 = "[Sala 1]";     
+private String Sala2 = "[Sala 2]";    
+private static ArrayList<String> last_msgs;   
+private static int num_msg_buffer = 5;
 private static ServerSocket server; 
 private String nome;
 private Socket con;
@@ -78,16 +83,20 @@ public void run(){
  * @param msg do tipo String
  * @throws IOException
  */
-public void sendToAll(BufferedWriter bwSaida, String msg) throws  IOException 
-{
+public void sendToAll(BufferedWriter bwSaida, String msg) throws  IOException {
+  
+  //if(SAIR.equalsIgnoreCase(msg)) return;
   BufferedWriter bwS;
-    
+  boolean sala = salas.get(clientes.indexOf(bwSaida));
+  String msg_ = "("+getCurrentTime()+") "+ nome + "\n   -> " + msg+"\r\n";
   for(BufferedWriter bw : clientes){
    bwS = (BufferedWriter)bw;
-   if(!("Sair".equalsIgnoreCase(msg)&&(bwSaida == bwS))){
-    bw.write("("+getCurrentTime()+") "+ nome + "\n   -> " + msg+"\r\n");
-     bw.flush(); 
-   }
+   //if(!("Sair".equalsIgnoreCase(msg)&&(bwSaida == bwS))){
+    if(salas.get(clientes.indexOf(bwS))==sala){
+      bw.write(msg_);
+      bw.flush(); 
+    }
+  // }
   }          
 }
 public void sendToAllServer(BufferedWriter bwSaida, String msg) throws IOException {
@@ -119,15 +128,21 @@ public String getCurrentTime(){
       JOptionPane.showMessageDialog(null, texts);
       server = new ServerSocket(Integer.parseInt(txtPorta.getText()));
       clientes = new ArrayList<BufferedWriter>();
+      salas = new ArrayList<Boolean>();
+      last_msgs = new ArrayList<String>();
+      
       JOptionPane.showMessageDialog(null,"Servidor ativo na porta: "+         
       txtPorta.getText());
-      
+      boolean escolhaSala = true;
        while(true){
          System.out.println("Aguardando conexão...");
          Socket con = server.accept();
-         System.out.println(" conectado...");
+         System.out.println("Conectado...");
          Thread t = new Servidor(con);
           t.start();   
+          salas.add(escolhaSala);
+          escolhaSala = !escolhaSala;
+
       }
                                 
     }catch (Exception e) {
