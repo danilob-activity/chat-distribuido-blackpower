@@ -111,6 +111,7 @@ public void sendToAllServer(BufferedWriter bwSaida, String msg) throws IOExcepti
           bw.write(msg + "\r\n");
           bw.flush();   
   }
+  
 }
 
 public String getCurrentTime(){
