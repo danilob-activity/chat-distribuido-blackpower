@@ -31,6 +31,7 @@ private InputStreamReader inr;
 private BufferedReader bfr;
 private String SAIR = "__Sair";
 
+
 /**
   * Construtor 
   * @param com do tipo Socket
